@@ -1,3 +1,13 @@
+<p align="center">
+  <a href="README.md">EN</a>
+  ·
+  <a href="README.tr.md">TR</a>
+  ·
+  <a href="README.de.md">DE</a>
+  ·
+  <a href="README.es.md">ES</a>
+</p>
+
 # Bulk Photo Filtering
 
 Update multiple images using the same preset. Apply the same settings.
