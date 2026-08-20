@@ -1,19 +1,17 @@
 {
-    "tintR": 80,
-    "tintG": 178,
-    "tintB": 255,
-    "tintOpacity": 0.2,
-    "saturation": 0.9,
-    "brightness": 0.8,
-    "contrast": 1.2,
+    "modulate": {
+        "brightness": 1.05,
+        "saturation": 1.35,
+        "hue": 0,
+        "lightness": 0
+    },
+    "linear": [1.1, -12.8],
     "gamma": 1.0,
     "sharpen": {
-        "sigma": 1.2,
+        "sigma": 1.0,
         "m1": 1.0,
         "m2": 2.0
     },
-    "hue": 0,
-    "lightness": 0,
     "blur": 0,
     "median": 0,
     "grayscale": false,
