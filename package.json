@@ -1,6 +1,7 @@
 {
-  "name": "yellow-filter",
+  "name": "bulk-photo-filtering",
   "version": "1.0.0",
+  "description": "Apply same settings to multiple images. Export to export/ directory.",
   "type": "module",
   "scripts": {
     "start": "bun run main.js",
