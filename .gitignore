@@ -1,0 +1,14 @@
+
+node_modules/
+*.jpeg
+*.jpg
+*.JPEG
+*.JPG
+
+*.png
+*.PNG
+
+*.webp
+*.WEBP
+
+
