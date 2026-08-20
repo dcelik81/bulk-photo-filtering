@@ -13,7 +13,7 @@ const SUPPORTED_EXT = new Set([
 
 const DEFAULT_FILTER = {
     modulate: {
-        brightness: 1.05,
+        brightness: 0.9,
         saturation: 1.35
     },
     linear: [1.1, -12.8],
