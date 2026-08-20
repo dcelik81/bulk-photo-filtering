@@ -1,13 +1,17 @@
 import fs from "fs";
 import path from "path";
 
-const exportDir = path.resolve("export");
-
-if (fs.existsSync(exportDir)) {
-    const items = fs.readdirSync(exportDir);
-    for (const item of items) {
-        fs.rmSync(path.join(exportDir, item), { recursive: true, force: true });
+function cleanDir(dirName) {
+    const dirPath = path.resolve(dirName);
+    if (fs.existsSync(dirPath)) {
+        const items = fs.readdirSync(dirPath);
+        for (const item of items) {
+            fs.rmSync(path.join(dirPath, item), { recursive: true, force: true });
+        }
+    } else {
+        fs.mkdirSync(dirPath, { recursive: true });
     }
-} else {
-    fs.mkdirSync(exportDir, { recursive: true });
 }
+
+cleanDir("import");
+cleanDir("export");
