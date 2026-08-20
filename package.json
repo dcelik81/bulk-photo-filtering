@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "bun run main.js ./",
+    "start": "bun run main.js",
     "clean": "bun clean.js"
   },
   "dependencies": {

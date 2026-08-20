@@ -72,8 +72,8 @@ async function applyWarmFilter(inputPath, outputPath) {
 }
 
 async function main() {
-    const inputDir = process.argv[2] || ".";
-    const outputDir = path.join(inputDir, "export");
+    const inputDir = process.argv[2] || "import";
+    const outputDir = "export";
 
     await fs.mkdir(outputDir, { recursive: true });
 

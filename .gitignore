@@ -1,4 +1,5 @@
-
+export/
+import/
 node_modules/
 *.jpeg
 *.jpg
