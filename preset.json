@@ -1,0 +1,24 @@
+{
+    "tintR": 80,
+    "tintG": 178,
+    "tintB": 255,
+    "tintOpacity": 0.2,
+    "saturation": 0.9,
+    "brightness": 0.8,
+    "contrast": 1.2,
+    "gamma": 1.0,
+    "sharpen": {
+        "sigma": 1.2,
+        "m1": 1.0,
+        "m2": 2.0
+    },
+    "hue": 0,
+    "lightness": 0,
+    "blur": 0,
+    "median": 0,
+    "grayscale": false,
+    "negate": false,
+    "normalize": false,
+    "threshold": 0,
+    "clahe": false
+}
