@@ -12,6 +12,13 @@
 
 Update multiple images using the same preset. Apply the same settings.
 
+## Examples
+
+| Before | After |
+|--------|-------|
+| ![Before](import/annie-spratt-Ng2UydNj4W8-unsplash.jpg) | ![After](export/annie-spratt-Ng2UydNj4W8-unsplash.jpg) |
+| ![Before](import/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) | ![After](export/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) |
+
 ## Installation
 
 You need bun package manager from [bun.sh](https://bun.sh)

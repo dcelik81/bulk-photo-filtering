@@ -12,6 +12,13 @@
 
 Aynı önayarı (preset) kullanarak birden fazla görseli güncelleyin. Tümüne aynı ayarları uygulayın.
 
+## Örnekler
+
+| Önce | Sonra |
+|------|-------|
+| ![Önce](import/annie-spratt-Ng2UydNj4W8-unsplash.jpg) | ![Sonra](export/annie-spratt-Ng2UydNj4W8-unsplash.jpg) |
+| ![Önce](import/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) | ![Sonra](export/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) |
+
 ## Kurulum
 
 [bun.sh](https://bun.sh) üzerinden `bun` paket yöneticisine ihtiyacınız var.

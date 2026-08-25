@@ -12,6 +12,13 @@
 
 Actualice múltiples imágenes usando el mismo ajuste preestablecido (preset). Aplique la misma configuración.
 
+## Ejemplos
+
+| Antes | Después |
+|-------|---------|
+| ![Antes](import/annie-spratt-Ng2UydNj4W8-unsplash.jpg) | ![Después](export/annie-spratt-Ng2UydNj4W8-unsplash.jpg) |
+| ![Antes](import/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) | ![Después](export/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) |
+
 ## Instalación
 
 Necesita el gestor de paquetes bun de [bun.sh](https://bun.sh).

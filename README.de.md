@@ -12,6 +12,13 @@
 
 Aktualisieren Sie mehrere Bilder mit demselben Preset. Wenden Sie dieselben Einstellungen auf alle an.
 
+## Beispiele
+
+| Vorher | Nachher |
+|--------|---------|
+| ![Vorher](import/annie-spratt-Ng2UydNj4W8-unsplash.jpg) | ![Nachher](export/annie-spratt-Ng2UydNj4W8-unsplash.jpg) |
+| ![Vorher](import/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) | ![Nachher](export/pascal-debrunner-Z2720kCJg6I-unsplash.jpg) |
+
 ## Installation
 
 Sie benötigen den bun-Paketmanager von [bun.sh](https://bun.sh).
