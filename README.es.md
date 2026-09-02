@@ -21,31 +21,37 @@ Actualice múltiples imágenes usando el mismo ajuste preestablecido (preset). A
 
 ## Instalación
 
-Necesita el gestor de paquetes bun de [bun.sh](https://bun.sh).
+Necesita Node.js y npm de [nodejs.org](https://nodejs.org).
+
+Para instalar Node.js y npm, descargue el instalador del sitio web oficial o use un gestor de paquetes:
 
 ```bash
-# windows
-powershell -c "irm bun.sh/install.ps1|iex"
+# windows (usando winget)
+winget install OpenJS.NodeJS
 
-# macos / linux
-curl -fsSL https://bun.sh/install | bash
+# macos (usando homebrew)
+brew install node
+
+# linux (usando apt para Debian/Ubuntu)
+sudo apt install nodejs npm
 ```
 
 ### Después de la instalación
 
 ```bash
 # Abra una nueva ventana de terminal
-# Compruebe si bun está instalado
-bun -v
+# Compruebe si node y npm están instalados
+node -v
+npm -v
 ```
 
 ## ¿Cómo utilizarlo?
 
 1. Abra una terminal en la carpeta del proyecto
-2. Ejecute el comando `bun i`
+2. Ejecute el comando `npm install`
 3. Mueva sus imágenes a la carpeta `import/`
 4. Actualice el archivo `preset.json` según sus necesidades
-5. Ejecute el comando `bun start`
+5. Ejecute el comando `npm start`
 6. Espere los resultados
 7. Compruebe la carpeta `export/`
 
@@ -54,7 +60,7 @@ bun -v
 ### Start
 
 ```bash
-bun start
+npm start
 ```
 
 Edita las imágenes de la carpeta `import/`. Aplica los filtros del archivo `preset.json`. Exporta a la carpeta `export/`.
@@ -62,7 +68,7 @@ Edita las imágenes de la carpeta `import/`. Aplica los filtros del archivo `pre
 ### Clean
 
 ```bash
-bun run clean
+npm run clean
 ```
 
 Elimina los archivos de las carpetas `import/` y `export/`.

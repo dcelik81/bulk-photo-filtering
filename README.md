@@ -21,31 +21,37 @@ Update multiple images using the same preset. Apply the same settings.
 
 ## Installation
 
-You need bun package manager from [bun.sh](https://bun.sh)
+You need Node.js and npm from [nodejs.org](https://nodejs.org)
+
+To install Node.js and npm, download the installer from the official website or use a package manager:
 
 ```bash
-# windows
-powershell -c "irm bun.sh/install.ps1|iex"
+# windows (using winget)
+winget install OpenJS.NodeJS
 
-# macos / linux
-curl -fsSL https://bun.sh/install | bash
+# macos (using homebrew)
+brew install node
+
+# linux (using apt for Debian/Ubuntu)
+sudo apt install nodejs npm
 ```
 
 ### Post installation
 
 ```bash
 # Open a new terminal window
-# Check if bun is installed
-bun -v
+# Check if node and npm are installed
+node -v
+npm -v
 ```
 
 ## How to use?
 
 1. Open a terminal in project folder
-2. Execute `bun i` command
+2. Execute `npm install` command
 3. Move your images into `import/` folder
 4. Update `preset.json` file according to your needs
-5. Execute `bun start` command
+5. Execute `npm start` command
 6. Wait for the results
 7. Check `export/` folder
 
@@ -54,7 +60,7 @@ bun -v
 ### Start
 
 ```bash
-bun start
+npm start
 ```
 
 Edit the images from `import/` folder. Apply the filters from `preset.json` file. Export to `export/` folder.
@@ -62,7 +68,7 @@ Edit the images from `import/` folder. Apply the filters from `preset.json` file
 ### Clean
 
 ```bash
-bun run clean
+npm run clean
 ```
 
 Remove the files in `import/` and `export/` folders.

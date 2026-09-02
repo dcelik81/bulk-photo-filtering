@@ -21,31 +21,37 @@ Aynı önayarı (preset) kullanarak birden fazla görseli güncelleyin. Tümüne
 
 ## Kurulum
 
-[bun.sh](https://bun.sh) üzerinden `bun` paket yöneticisine ihtiyacınız var.
+[nodejs.org](https://nodejs.org) üzerinden Node.js ve npm'e ihtiyacınız var.
+
+Node.js ve npm'i kurmak için resmi web sitesinden yükleyiciyi indirebilir veya bir paket yöneticisi kullanabilirsiniz:
 
 ```bash
-# windows
-powershell -c "irm bun.sh/install.ps1|iex"
+# windows (winget kullanarak)
+winget install OpenJS.NodeJS
 
-# macos / linux
-curl -fsSL https://bun.sh/install | bash
+# macos (homebrew kullanarak)
+brew install node
+
+# linux (Debian/Ubuntu için apt kullanarak)
+sudo apt install nodejs npm
 ```
 
 ### Kurulum sonrası
 
 ```bash
 # Yeni bir terminal penceresi açın
-# bun'ın başarılı kurulup kurulmadığını kontrol edin
-bun -v
+# node ve npm'in başarılı kurulup kurulmadığını kontrol edin
+node -v
+npm -v
 ```
 
 ## Nasıl kullanılır?
 
 1. Proje klasöründe bir terminal açın
-2. `bun i` komutunu çalıştırın
+2. `npm install` komutunu çalıştırın
 3. Görsellerinizi `import/` klasörüne taşıyın
 4. `preset.json` dosyasını ihtiyaçlarınıza göre güncelleyin
-5. `bun start` komutunu çalıştırın
+5. `npm start` komutunu çalıştırın
 6. İşlemin bitmesini bekleyin
 7. Çıktılar için `export/` klasörünü kontrol edin
 
@@ -54,7 +60,7 @@ bun -v
 ### Başlat (Start)
 
 ```bash
-bun start
+npm start
 ```
 
 `import/` klasöründeki fotoğrafları düzenler. `preset.json` dosyasındaki ayarları ve filtreleri uygular. İşlenen dosyaları `export/` klasörüne kaydeder.
@@ -62,7 +68,7 @@ bun start
 ### Temizle (Clean)
 
 ```bash
-bun run clean
+npm run clean
 ```
 
 `import/` ve `export/` klasörlerindeki tüm dosyaları siler.
