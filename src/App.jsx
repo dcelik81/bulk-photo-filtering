@@ -7,7 +7,7 @@ export default function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loadingPreview, setLoadingPreview] = useState(false);
-  
+
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState({ current: 0, total: 0 });
 
@@ -38,7 +38,7 @@ export default function App() {
   };
 
   const currentImage = images[selectedIndex];
-  
+
   // Debounce ref
   const timeoutRef = useRef(null);
 
@@ -56,12 +56,22 @@ export default function App() {
     }
   }, []);
 
+  const previousImageRef = useRef(null);
+
   useEffect(() => {
     if (currentImage) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
+
+      const isImageChange = previousImageRef.current !== currentImage.path;
+      previousImageRef.current = currentImage.path;
+
+      if (isImageChange) {
         fetchPreview(currentImage, settings);
-      }, 300); // 300ms debounce
+      } else {
+        timeoutRef.current = setTimeout(() => {
+          fetchPreview(currentImage, settings);
+        }, 100);
+      }
     }
   }, [currentImage, settings, fetchPreview]);
 
@@ -108,14 +118,14 @@ export default function App() {
           <h1 className="font-semibold tracking-wide text-sm">Fotoedit</h1>
         </div>
         <div className="flex items-center gap-3 no-drag">
-          <button 
+          <button
             onClick={handleSelectDir}
             className="flex items-center gap-2 px-3 py-1.5 bg-zinc-700 hover:bg-zinc-600 rounded text-sm transition-colors"
           >
             <FolderOpen className="w-4 h-4" />
             Open Folder
           </button>
-          <button 
+          <button
             onClick={handleExportAll}
             disabled={images.length === 0 || isExporting}
             className="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm transition-colors"
@@ -129,12 +139,12 @@ export default function App() {
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Preview Area */}
-        <main className="flex-1 flex flex-col relative bg-[#111] overflow-hidden">
-          <div className="flex-1 relative flex items-center justify-center p-4">
+        <main className="flex-1 flex flex-col relative bg-[#111] overflow-hidden min-h-0">
+          <div className="flex-1 relative flex items-center justify-center p-4 min-h-0">
             {previewUrl ? (
-              <img 
-                src={previewUrl} 
-                alt="Preview" 
+              <img
+                src={previewUrl}
+                alt="Preview"
                 className="max-w-full max-h-full object-contain drop-shadow-2xl transition-opacity duration-300"
                 style={{ opacity: loadingPreview ? 0.7 : 1 }}
               />
@@ -145,23 +155,22 @@ export default function App() {
               </div>
             )}
           </div>
-          
+
           {/* Filmstrip */}
           {images.length > 0 && (
             <div className="h-24 bg-surface border-t border-border flex items-center px-2 overflow-x-auto gap-2 shrink-0">
               {images.map((img, idx) => (
-                <div 
+                <div
                   key={idx}
                   onClick={() => setSelectedIndex(idx)}
-                  className={`w-16 h-16 shrink-0 bg-zinc-800 rounded overflow-hidden cursor-pointer border-2 transition-all ${
-                    idx === selectedIndex ? 'border-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'border-transparent hover:border-zinc-500'
-                  }`}
+                  className={`w-16 h-16 shrink-0 bg-zinc-800 rounded overflow-hidden cursor-pointer border-2 transition-all ${idx === selectedIndex ? 'border-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'border-transparent hover:border-zinc-500'
+                    }`}
                 >
-                   {/* In a real app we'd load small thumbnails, but for simplicity we'll just show an icon or name. 
+                  {/* In a real app we'd load small thumbnails, but for simplicity we'll just show an icon or name. 
                        We could also just use an electron protocol or base64. Let's just show file name snippet for now. */}
-                   <div className="w-full h-full flex items-center justify-center text-[10px] text-zinc-400 break-all p-1 text-center bg-zinc-900">
-                     {img.name.slice(0,10)}...
-                   </div>
+                  <div className="w-full h-full flex items-center justify-center text-[10px] text-zinc-400 break-all p-1 text-center bg-zinc-900">
+                    {img.name.slice(0, 10)}...
+                  </div>
                 </div>
               ))}
             </div>
@@ -172,7 +181,7 @@ export default function App() {
         <aside className="w-80 bg-surface border-l border-border flex flex-col overflow-y-auto shrink-0">
           <div className="p-5 border-b border-border">
             <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">Color Adjustments</h2>
-            
+
             <div className="space-y-6">
               <SliderControl label="Brightness" min="0.1" max="3" step="0.05" value={settings.brightness} onChange={(v) => handleSettingChange('brightness', v)} />
               <SliderControl label="Saturation" min="0.0" max="3" step="0.05" value={settings.saturation} onChange={(v) => handleSettingChange('saturation', v)} />
@@ -184,7 +193,7 @@ export default function App() {
 
           <div className="p-5">
             <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">Detail</h2>
-            
+
             <div className="space-y-6">
               <SliderControl label="Sharpen (Sigma)" min="0" max="5" step="0.1" value={settings.sharpen_sigma} onChange={(v) => handleSettingChange('sharpen_sigma', v)} />
             </div>
@@ -199,7 +208,7 @@ export default function App() {
             <Download className="w-10 h-10 text-indigo-400 animate-bounce mb-4" />
             <h3 className="text-lg font-semibold mb-2">Exporting Images</h3>
             <div className="w-full bg-zinc-800 rounded-full h-2 mb-2 overflow-hidden">
-              <div 
+              <div
                 className="bg-indigo-500 h-2 transition-all duration-300"
                 style={{ width: `${exportProgress.total ? (exportProgress.current / exportProgress.total) * 100 : 0}%` }}
               />
@@ -221,13 +230,13 @@ function SliderControl({ label, min, max, step, value, onChange }) {
         <span className="text-zinc-300">{label}</span>
         <span className="text-indigo-400 font-mono">{Number(value).toFixed(2)}</span>
       </div>
-      <input 
-        type="range" 
-        min={min} 
-        max={max} 
-        step={step} 
-        value={value} 
-        onChange={(e) => onChange(e.target.value)} 
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
