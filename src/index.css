@@ -12,16 +12,102 @@ body {
   min-height: 100vh;
 }
 
+/* ─── Slider Stilleri ─────────────────────────── */
+
 input[type=range] {
   -webkit-appearance: none;
-  @apply w-full h-2 bg-zinc-700 rounded-lg outline-none cursor-pointer;
+  @apply w-full h-1.5 bg-zinc-700 rounded-lg outline-none cursor-pointer;
+  transition: background 0.15s ease;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  @apply w-4 h-4 rounded-full bg-zinc-300 cursor-pointer;
+  @apply w-3.5 h-3.5 rounded-full bg-zinc-300 cursor-pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
 }
 
 input[type=range]:hover::-webkit-slider-thumb {
   @apply bg-white;
+  transform: scale(1.15);
+}
+
+input[type=range]:active::-webkit-slider-thumb {
+  @apply bg-indigo-400;
+  transform: scale(1.25);
+}
+
+/* ─── Preview Canvas ──────────────────────────── */
+
+.preview-canvas {
+  image-rendering: auto;
+  /* CSS ile canvas'ı container'a sığdır */
+  object-fit: contain;
+}
+
+/* ─── Sidebar Scroll ──────────────────────────── */
+
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* ─── Tone Curve Editor ───────────────────────── */
+
+svg circle {
+  transition: fill 0.1s ease;
+}
+
+svg circle:hover {
+  filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.6));
+}
+
+/* ─── Checkbox Custom ─────────────────────────── */
+
+input[type=checkbox] {
+  @apply w-3.5 h-3.5 rounded cursor-pointer;
+}
+
+/* ─── Panel Animasyonları ─────────────────────── */
+
+.panel-enter {
+  animation: panelSlideIn 0.2s ease-out;
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Drag Area (Electron) ────────────────────── */
+
+.drag-area {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
 }

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 const fs = require('fs/promises')
 const sharp = require('sharp')
+const { processPixelBuffer } = require('./pixelProcessor')
 
 const SUPPORTED_EXT = new Set(['.jpg', '.jpeg', '.png', '.webp', '.tiff', '.avif'])
 
@@ -44,7 +45,8 @@ app.on('window-all-closed', () => {
   }
 })
 
-// IPC Handlers
+// ─── IPC Handlers ──────────────────────────────
+
 ipcMain.handle('select-directory', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
@@ -65,70 +67,109 @@ ipcMain.handle('get-images', async (event, dirPath) => {
   }
 })
 
-ipcMain.handle('get-preview', async (event, imagePath, config) => {
+/**
+ * Ham önizleme — sadece resize, renk işleme yok.
+ * Tüm renk düzenlemeleri frontend'de WebGL ile yapılacak.
+ */
+ipcMain.handle('get-raw-preview', async (event, imagePath) => {
   try {
-    // Sıkıştırılmış önizleme (max 1080px)
-    let pipeline = sharp(imagePath).resize({
-      width: 1080,
-      height: 1080,
-      fit: 'inside',
-      withoutEnlargement: true
-    })
+    const buffer = await sharp(imagePath)
+      .resize({
+        width: 1080,
+        height: 1080,
+        fit: 'inside',
+        withoutEnlargement: true
+      })
+      .png()  // PNG — kayıpsız, WebGL texture yükleme için ideal
+      .toBuffer()
 
-    for (const [key, value] of Object.entries(config)) {
-      if (typeof pipeline[key] === 'function') {
-        if (value === false || value === 0) continue
-        
-        if (value === true) {
-          pipeline = pipeline[key]()
-        } else if (Array.isArray(value)) {
-          pipeline = pipeline[key](...value)
-        } else {
-          pipeline = pipeline[key](value)
-        }
-      }
-    }
-
-    const buffer = await pipeline.webp({ quality: 80 }).toBuffer()
-    return `data:image/webp;base64,${buffer.toString('base64')}`
+    return `data:image/png;base64,${buffer.toString('base64')}`
   } catch (err) {
-    console.error('get-preview error:', err)
+    console.error('get-raw-preview error:', err)
     throw err
   }
 })
 
-ipcMain.handle('export-all', async (event, inputDir, outputDir, config) => {
+/**
+ * Tüm görüntüleri export et.
+ * Pipeline: Sharp (okuma) → CPU piksel işleme (renk) → Sharp (sharpen + kaydetme)
+ */
+ipcMain.handle('export-all', async (event, inputDir, outputDir, settings) => {
   try {
     await fs.mkdir(outputDir, { recursive: true })
     const entries = await fs.readdir(inputDir, { withFileTypes: true })
     const files = entries.filter(e => e.isFile() && SUPPORTED_EXT.has(path.extname(e.name).toLowerCase()))
-    
-    let processed = 0;
-    
+
+    let processed = 0
+    const sharpenSigma = parseFloat(settings.sharpenSigma) || 0
+
     for (const file of files) {
       const inputPath = path.join(inputDir, file.name)
       const outputPath = path.join(outputDir, file.name)
-      
-      let pipeline = sharp(inputPath)
-      for (const [key, value] of Object.entries(config)) {
-        if (typeof pipeline[key] === 'function') {
-          if (value === false || value === 0) continue
-          
-          if (value === true) {
-            pipeline = pipeline[key]()
-          } else if (Array.isArray(value)) {
-            pipeline = pipeline[key](...value)
-          } else {
-            pipeline = pipeline[key](value)
+
+      try {
+        // 1. Görüntüyü raw piksel olarak oku
+        const image = sharp(inputPath)
+        const metadata = await image.metadata()
+        const { data, info } = await image
+          .removeAlpha()  // RGB'ye dönüştür (3 kanal)
+          .raw()
+          .toBuffer({ resolveWithObject: true })
+
+        // 2. CPU piksel işleme (tüm renk ayarları)
+        const processedBuffer = processPixelBuffer(
+          data,
+          info.width,
+          info.height,
+          info.channels,
+          settings
+        )
+
+        // 3. İşlenmiş pikselleri Sharp'a geri yükle
+        let pipeline = sharp(processedBuffer, {
+          raw: {
+            width: info.width,
+            height: info.height,
+            channels: info.channels,
           }
+        })
+
+        // 4. Sharpen uygula (WebGL'deki ile aynı amaç)
+        if (sharpenSigma > 0) {
+          pipeline = pipeline.sharpen({
+            sigma: sharpenSigma,
+            m1: 1.0,
+            m2: 2.0,
+          })
         }
+
+        // 5. Orijinal formatta kaydet
+        const ext = path.extname(file.name).toLowerCase()
+        if (ext === '.png') {
+          pipeline = pipeline.png()
+        } else if (ext === '.webp') {
+          pipeline = pipeline.webp({ quality: 90 })
+        } else if (ext === '.tiff') {
+          pipeline = pipeline.tiff()
+        } else if (ext === '.avif') {
+          pipeline = pipeline.avif({ quality: 80 })
+        } else {
+          pipeline = pipeline.jpeg({ quality: 90 })
+        }
+
+        await pipeline.toFile(outputPath)
+      } catch (fileErr) {
+        console.error(`Export error for ${file.name}:`, fileErr)
       }
-      
-      await pipeline.toFile(outputPath)
-      processed++;
-      mainWindow.webContents.send('export-progress', { total: files.length, current: processed, currentFile: file.name })
+
+      processed++
+      mainWindow.webContents.send('export-progress', {
+        total: files.length,
+        current: processed,
+        currentFile: file.name,
+      })
     }
-    
+
     return { success: true, count: processed }
   } catch (err) {
     console.error('export-all error:', err)
