@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #18181b;
+  --color-surface: #27272a;
+  --color-border: #3f3f46;
+}
+
+body {
+  @apply bg-background text-zinc-100 antialiased overflow-hidden;
+  margin: 0;
+  min-height: 100vh;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  @apply w-full h-2 bg-zinc-700 rounded-lg outline-none cursor-pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  @apply w-4 h-4 rounded-full bg-zinc-300 cursor-pointer;
+}
+
+input[type=range]:hover::-webkit-slider-thumb {
+  @apply bg-white;
+}

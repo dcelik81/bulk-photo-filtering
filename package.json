@@ -1,14 +1,30 @@
 {
   "name": "bulk-photo-filtering",
-  "author": "dcelik81",
   "version": "1.0.0",
-  "description": "Apply same settings to multiple images. Export to export/ directory.",
-  "type": "module",
+  "main": "dist-electron/main.js",
+  "description": "Desktop photo editor with real-time preview",
+  "author": "dcelik81",
   "scripts": {
-    "start": "node main.js",
-    "clean": "node clean.js"
+    "dev": "vite",
+    "build": "vite build && electron-builder",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "sharp": "^0.35.4"
+    "lucide-react": "^1.39.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.5.4",
+    "electron": "^44.1.1",
+    "electron-builder": "^26.15.3",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.2",
+    "vite-plugin-electron": "^1.1.2",
+    "vite-plugin-electron-renderer": "^1.0.0"
   }
 }
