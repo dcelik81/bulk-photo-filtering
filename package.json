@@ -1,13 +1,14 @@
 {
   "name": "bulk-photo-filtering",
+  "author": "dcelik81",
   "version": "1.0.0",
   "description": "Apply same settings to multiple images. Export to export/ directory.",
   "type": "module",
   "scripts": {
-    "start": "bun run main.js",
-    "clean": "bun clean.js"
+    "start": "node main.js",
+    "clean": "node clean.js"
   },
   "dependencies": {
-    "sharp": "^0.33.5"
+    "sharp": "^0.35.4"
   }
 }
