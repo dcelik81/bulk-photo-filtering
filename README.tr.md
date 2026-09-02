@@ -49,26 +49,22 @@ npm -v
 
 1. Proje klasöründe bir terminal açın
 2. `npm install` komutunu çalıştırın
-3. Görsellerinizi `import/` klasörüne taşıyın
-4. `preset.json` dosyasını ihtiyaçlarınıza göre güncelleyin
-5. `npm start` komutunu çalıştırın
-6. İşlemin bitmesini bekleyin
-7. Çıktılar için `export/` klasörünü kontrol edin
+3. Masaüstü uygulamasını başlatmak için `npm run dev` komutunu çalıştırın
 
 ## Komutlar (Scripts)
 
-### Başlat (Start)
+### Geliştirme (Dev)
 
 ```bash
-npm start
+npm run dev
 ```
 
-`import/` klasöründeki fotoğrafları düzenler. `preset.json` dosyasındaki ayarları ve filtreleri uygular. İşlenen dosyaları `export/` klasörüne kaydeder.
+Uygulamayı geliştirme modunda gerçek zamanlı önizleme ile başlatır.
 
-### Temizle (Clean)
+### Derleme (Build)
 
 ```bash
-npm run clean
+npm run build
 ```
 
-`import/` ve `export/` klasörlerindeki tüm dosyaları siler.
+Uygulamayı işletim sisteminiz için derler.

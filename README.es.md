@@ -49,26 +49,22 @@ npm -v
 
 1. Abra una terminal en la carpeta del proyecto
 2. Ejecute el comando `npm install`
-3. Mueva sus imágenes a la carpeta `import/`
-4. Actualice el archivo `preset.json` según sus necesidades
-5. Ejecute el comando `npm start`
-6. Espere los resultados
-7. Compruebe la carpeta `export/`
+3. Ejecute el comando `npm run dev` para iniciar la aplicación de escritorio
 
 ## Scripts
 
-### Start
+### Dev
 
 ```bash
-npm start
+npm run dev
 ```
 
-Edita las imágenes de la carpeta `import/`. Aplica los filtros del archivo `preset.json`. Exporta a la carpeta `export/`.
+Inicia la aplicación en modo de desarrollo con una vista previa en tiempo real.
 
-### Clean
+### Build
 
 ```bash
-npm run clean
+npm run build
 ```
 
-Elimina los archivos de las carpetas `import/` y `export/`.
+Compila la aplicación para su sistema operativo.

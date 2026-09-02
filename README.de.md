@@ -49,26 +49,22 @@ npm -v
 
 1. Öffnen Sie ein Terminal im Projektordner
 2. Führen Sie den Befehl `npm install` aus
-3. Verschieben Sie Ihre Bilder in den Ordner `import/`
-4. Aktualisieren Sie die Datei `preset.json` nach Ihren Bedürfnissen
-5. Führen Sie den Befehl `npm start` aus
-6. Warten Sie auf die Ergebnisse
-7. Überprüfen Sie den Ordner `export/`
+3. Führen Sie den Befehl `npm run dev` aus, um die Desktop-Anwendung zu starten
 
 ## Skripte
 
-### Start
+### Dev
 
 ```bash
-npm start
+npm run dev
 ```
 
-Bearbeitet die Bilder aus dem Ordner `import/`. Wendet die Filter aus der Datei `preset.json` an. Exportiert in den Ordner `export/`.
+Startet die Anwendung im Entwicklungsmodus mit einer Echtzeit-Vorschau.
 
-### Clean
+### Build
 
 ```bash
-npm run clean
+npm run build
 ```
 
-Entfernt die Dateien in den Ordnern `import/` und `export/`.
+Erstellt die Anwendung für Ihr Betriebssystem.
