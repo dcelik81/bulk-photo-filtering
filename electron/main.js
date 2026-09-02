@@ -103,7 +103,17 @@ ipcMain.handle('export-all', async (event, inputDir, outputDir, settings) => {
     let processed = 0
     const sharpenSigma = parseFloat(settings.sharpenSigma) || 0
 
+    // İlk durumu UI'a hemen gönder (0 / 0 hatasını önlemek için)
+    mainWindow.webContents.send('export-progress', {
+      total: files.length,
+      current: 0,
+      currentFile: '',
+    })
+
     for (const file of files) {
+      // UI donmasını ve OS "yanıt vermiyor" hatasını engellemek için event loop'un işlemesine izin ver
+      await new Promise(resolve => setTimeout(resolve, 10))
+
       const inputPath = path.join(inputDir, file.name)
       const outputPath = path.join(outputDir, file.name)
 
@@ -117,7 +127,7 @@ ipcMain.handle('export-all', async (event, inputDir, outputDir, settings) => {
           .toBuffer({ resolveWithObject: true })
 
         // 2. CPU piksel işleme (tüm renk ayarları)
-        const processedBuffer = processPixelBuffer(
+        const processedBuffer = await processPixelBuffer(
           data,
           info.width,
           info.height,

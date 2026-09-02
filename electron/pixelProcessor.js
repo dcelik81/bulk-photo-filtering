@@ -105,15 +105,15 @@ const CENTERS = [0.0, 30 / 360, 60 / 360, 120 / 360, 180 / 360, 240 / 360, 270 /
 // ─── Ana İşleme Fonksiyonu ────────────────────
 
 /**
- * Piksel buffer'ını tüm renk ayarlarıyla işler.
+ * Piksel buffer'ını tüm renk ayarlarıyla işler. (Event loop'u bloklamamak için async)
  * @param {Buffer} buffer - Raw piksel verisi (RGB veya RGBA)
  * @param {number} width
  * @param {number} height
  * @param {number} channels - 3 (RGB) veya 4 (RGBA)
  * @param {object} settings - Tam ayarlar nesnesi
- * @returns {Buffer} İşlenmiş piksel verisi
+ * @returns {Promise<Buffer>} İşlenmiş piksel verisi
  */
-function processPixelBuffer(buffer, width, height, channels, settings) {
+async function processPixelBuffer(buffer, width, height, channels, settings) {
   // Pre-compute LUT'lar
   const masterLUT = generateCurveLUT(settings.curveRGB || [{ x: 0, y: 0 }, { x: 1, y: 1 }]);
   const redLUT = generateCurveLUT(settings.curveRed || [{ x: 0, y: 0 }, { x: 1, y: 1 }]);
@@ -366,6 +366,11 @@ function processPixelBuffer(buffer, width, height, channels, settings) {
     buffer[idx] = clamp(Math.round(r * 255), 0, 255);
     buffer[idx + 1] = clamp(Math.round(g * 255), 0, 255);
     buffer[idx + 2] = clamp(Math.round(b * 255), 0, 255);
+
+    // Ağır işlemlerde UI'ın donmasını engellemek için event loop'un işlemesine izin ver
+    if (i % 500000 === 0 && i > 0) {
+      await new Promise(resolve => setImmediate(resolve));
+    }
   }
 
   return buffer;
